@@ -15,7 +15,7 @@ public class AccesoDB {
             // Paso 1: Cargar el driver a memoria 
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             // Paso 2: Obtener el objeto Connection 
-            String url = "jdbc:sqlserver://localhost:1433;databaseName=EDUCA2;trustServerCertificate=true;";
+            String url = "jdbc:sqlserver://10.11.7.104:1433;databaseName=EDUCA2;trustServerCertificate=true;";
             cn = DriverManager.getConnection(url, "sa", "sql");
         } catch (SQLException e) {
             throw e;

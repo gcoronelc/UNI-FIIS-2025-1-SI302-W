@@ -11,6 +11,7 @@
         <exec.mainClass>pe.edu.uni.educav2app.EducaV2App</exec.mainClass>
     </properties>
     <dependencies>
+        
         <!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
@@ -18,5 +19,13 @@
             <version>12.10.0.jre11</version>
             <scope>compile</scope>
         </dependency>
+        
+        <dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<version>1.18.38</version>
+		<scope>provided</scope>
+	</dependency>
+        
     </dependencies>
 </project>
