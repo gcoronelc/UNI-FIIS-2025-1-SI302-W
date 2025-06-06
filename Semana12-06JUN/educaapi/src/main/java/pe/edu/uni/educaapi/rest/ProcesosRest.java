@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pe.edu.uni.educaapi.dto.MatriculaDto;
+import pe.edu.uni.educaapi.dto.PagoCuotaDto;
 import pe.edu.uni.educaapi.service.ProcesosService;
 
 @RestController
@@ -27,4 +28,13 @@ public class ProcesosRest {
         }
     }
 
+    @PostMapping("/pagocuota")
+    public ResponseEntity<?> pagoCuota(@RequestBody PagoCuotaDto bean){
+        try {
+            PagoCuotaDto result = procesosService.pagarCuota(bean);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 }

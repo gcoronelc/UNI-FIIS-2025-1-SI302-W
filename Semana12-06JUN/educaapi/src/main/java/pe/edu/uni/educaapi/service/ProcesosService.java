@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pe.edu.uni.educaapi.dto.MatriculaDto;
+import pe.edu.uni.educaapi.dto.PagoCuotaDto;
+
+import java.util.Map;
 
 @Service
 public class ProcesosService {
@@ -13,12 +16,15 @@ public class ProcesosService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private ConsultasService consultasService;
+
     @Transactional(propagation= Propagation.REQUIRES_NEW, rollbackFor=Exception.class)
     public MatriculaDto matricular(MatriculaDto dto){
         // Variables
         String sql;
         // Validaciones
-        validarMatricula(dto);
+        validarMatricula(dto.getIdCurso(), dto.getIdAlumno());
         validarCurso(dto.getIdCurso());
         validarAlumno(dto.getIdAlumno());
         validarEmpleado(dto.getIdEmpleado());
@@ -46,6 +52,40 @@ public class ProcesosService {
         // Reporte
         dto.setPrecio(precio);
         return dto;
+    }
+
+
+    @Transactional(propagation= Propagation.REQUIRES_NEW, rollbackFor=Exception.class)
+    public PagoCuotaDto pagarCuota(PagoCuotaDto bean){
+        // Validar que matricula exista
+        /*
+        String sql = """
+                select count(1) cont from MATRICULA
+                where cur_id=? and alu_id=?
+                """;
+        int cont = jdbcTemplate.queryForObject(sql,Integer.class,bean.getIdCurso(),bean.getIdAlumno() );
+        if(cont==0){
+            throw new RuntimeException("ERROR: La matricua NO existe.");
+        }
+         */
+        // Validar datos de la cuota
+        Map<String,Object> rec = consultasService.datosCuota(bean.getIdCurso(), bean.getIdAlumno());
+        int cuotaActual = Integer.parseInt(rec.get("cuotaActual").toString());
+        double importe = Double.parseDouble(rec.get("importe").toString());
+        if(cuotaActual!=bean.getCuota() || importe != bean.getImporte()){
+            throw new RuntimeException("ERROR: Datos incorrectos, intentelo de nuevo.");
+        }
+        // Insertar el pago
+        String sql = """
+                insert into PAGO(cur_id,alu_id,pag_cuota,emp_id,pag_fecha,pag_importe)
+                values(?,?,?,?,GETDATE(),?)
+                """;
+        Object[] parametros = {
+                bean.getIdCurso(), bean.getIdAlumno(), bean.getCuota(),
+                bean.getIdEmpleado(), bean.getImporte()
+        };
+        jdbcTemplate.update(sql,parametros);
+        return bean;
     }
 
     private void validarCuotas(MatriculaDto dto) {
@@ -106,12 +146,12 @@ public class ProcesosService {
         }
     }
 
-    private void validarMatricula(MatriculaDto dto) {
+    private void validarMatricula(int idCurso, int idAlumno) {
         String sql = """
                 select count(1) cont from MATRICULA
                 where cur_id=? and alu_id=?
                 """;
-        int cont = jdbcTemplate.queryForObject(sql,Integer.class,dto.getIdCurso(), dto.getIdAlumno());
+        int cont = jdbcTemplate.queryForObject(sql,Integer.class,idCurso, idAlumno);
         if(cont==1){
             throw new RuntimeException("ERROR: Matricula ya existe.");
         }

@@ -87,19 +87,28 @@ public class ConsultasService {
         Map<String,Object> rec2 = new HashMap<>();
         rec2.put("idCurso", idCurso);
         rec2.put("idAlumno", idAlumno);
-        rec2.put("cuota", 0);
+        rec2.put("cuotas", cuotas);
+        rec2.put("precio", precio);
+        rec2.put("cuotaActual", 0);
         rec2.put("importe", 0.0);
         if(ultcuota == cuotas){
             rec2.put("estado",0);
             return rec2;
         }
         ultcuota++;
-        rec2.put("cuota", ultcuota);
+        rec2.put("cuotaActual", ultcuota);
         rec2.put("estado",1);
         if(ultcuota==cuotas){
             rec2.put("importe", precio - pagado);
             return rec2;
         }
+        if(ultcuota==1 & cuotas==3){
+            rec2.put("importe", precio * 0.40);
+            return rec2;
+        }
+        int cuotasFaltan = cuotas - ultcuota + 1;
+        double faltaPagar = precio - pagado;
+        rec2.put("importe", faltaPagar / cuotasFaltan);
         return rec2;
     }
 }
