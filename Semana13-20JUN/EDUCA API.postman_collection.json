@@ -1,0 +1,329 @@
+{
+	"info": {
+		"_postman_id": "828b701b-27af-4054-abc0-cc6d11eb811f",
+		"name": "EDUCA API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24743107"
+	},
+	"item": [
+		{
+			"name": "GETs",
+			"item": [
+				{
+					"name": "Precio de curso",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/consultas/curso/precio/555",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"consultas",
+								"curso",
+								"precio",
+								"555"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cuota a pagar - 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/consultas/cuota/1/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"consultas",
+								"cuota",
+								"1",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cuota a pagar - 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/consultas/cuota/1/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"consultas",
+								"cuota",
+								"1",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POST",
+			"item": [
+				{
+					"name": "Prueba01 Matricula ya existe",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idCurso\":1,\r\n    \"idAlumno\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/procesos/matricular",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"procesos",
+								"matricular"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Prueba02 Curso NO existe",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idCurso\":111,\r\n    \"idAlumno\": 7\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/procesos/matricular",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"procesos",
+								"matricular"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Prueba03 Curso sin vacantes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idCurso\":7,\r\n    \"idAlumno\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/procesos/matricular",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"procesos",
+								"matricular"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Prueba04 Validar alumno",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idCurso\":1,\r\n    \"idAlumno\": 999\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/procesos/matricular",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"procesos",
+								"matricular"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Prueba05 Validar empleado",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idCurso\":1,\r\n    \"idAlumno\": 1,\r\n    \"idEmpleado\": 999\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/procesos/matricular",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"procesos",
+								"matricular"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Prueba06 Validar tipo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idCurso\":1,\r\n    \"idAlumno\": 1,\r\n    \"idEmpleado\":2,\r\n    \"tipo\":\"Buen tipo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/procesos/matricular",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"procesos",
+								"matricular"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Prueba07 Validar Cuotas",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idCurso\":1,\r\n    \"idAlumno\": 1,\r\n    \"idEmpleado\": 3,\r\n    \"tipo\": \"BECA\",\r\n    \"cuotas\" : 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/procesos/matricular",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"procesos",
+								"matricular"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Prueba08 Matricula correcta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idCurso\":1,\r\n    \"idAlumno\": 1,\r\n    \"idEmpleado\": 3,\r\n    \"tipo\": \"BECA\",\r\n    \"cuotas\" : 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/procesos/matricular",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"procesos",
+								"matricular"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

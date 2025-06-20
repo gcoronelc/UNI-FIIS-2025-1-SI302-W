@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Sitio Web - Inicio</title>
+    <!-- Bootstrap 4.6 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .navbar {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .content {
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de Navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#inicio">
+                <i class="fas fa-home"></i> Mi Sitio Web
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#inicio">
+                            <i class="fas fa-home"></i> Inicio
+                        </a>
+                    </li>
+                    
+                    <!-- Menú con Submenú: Procesos -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="serviciosDropdown" role="button" 
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-cogs"></i> Procesos
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="serviciosDropdown">
+                            <a class="dropdown-item" href="#web" onclick="cargarPagina('matricular.html'); return false;">
+                                <i class="fas fa-user-graduate"></i> Matricular
+                            </a>
+                            <a class="dropdown-item" href="#mobile">
+                                <i class="fas fa-mobile-alt"></i> Otro proceso
+                            </a>
+                            <a class="dropdown-item" href="#design">
+                                <i class="fas fa-paint-brush"></i> Diseño Gráfico
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#consulting">
+                                <i class="fas fa-lightbulb"></i> Consultoría
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <!-- Menú con Submenú: Consultas -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="productosDropdown" role="button" 
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-box"></i> Consultas
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="productosDropdown">
+                            <a class="dropdown-item" href="#software" onclick="cargarPagina('consultaPrecio.html'); return false;">
+                                <i class="fas fa-dollar-sign"></i> Precio
+                            </a>
+                            <a class="dropdown-item" href="#hardware" onclick="cargarPagina('consultaCuota.html'); return false;">
+                                <i class="fas fa-dollar-sign"></i> Cuota
+                            </a>
+                            <a class="dropdown-item" href="#licenses">
+                                <i class="fas fa-certificate"></i> Licencias
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <!-- Menú con Submenú: Empresa -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="empresaDropdown" role="button" 
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-building"></i> Empresa
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="empresaDropdown">
+                            <a class="dropdown-item" href="#about">
+                                <i class="fas fa-info-circle"></i> Acerca de
+                            </a>
+                            <a class="dropdown-item" href="#team">
+                                <i class="fas fa-users"></i> Nuestro Equipo
+                            </a>
+                            <a class="dropdown-item" href="#history">
+                                <i class="fas fa-history"></i> Historia
+                            </a>
+                            <a class="dropdown-item" href="#mission">
+                                <i class="fas fa-bullseye"></i> Misión y Visión
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="#portfolio">
+                            <i class="fas fa-briefcase"></i> Portafolio
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="#blog">
+                            <i class="fas fa-blog"></i> Blog
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacto">
+                            <i class="fas fa-envelope"></i> Contacto
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="content" id="divInicio">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Bienvenido</h1>
+                    <p>Este es el contenido principal de la página. El menú de navegación está funcionando correctamente.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 4.6 JS y dependencias -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+        // Función para cargar una página en el div divInicio
+        function cargarPagina(url) {
+            // Mostrar indicador de carga
+            $('#divInicio').html('<div class="text-center py-5"><i class="fas fa-spinner fa-spin fa-2x"></i><p class="mt-2">Cargando...</p></div>');
+            
+            // Realizar petición AJAX
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+                    // Cargar el contenido en el div
+                    $('#divInicio').html(data);
+                },
+                error: function(xhr, status, error) {
+                    // Mostrar mensaje de error
+                    $('#divInicio').html(
+                        '<div class="alert alert-danger" role="alert">' +
+                        '<h4 class="alert-heading"><i class="fas fa-exclamation-triangle"></i> Error</h4>' +
+                        '<p>No se pudo cargar la página: <strong>' + url + '</strong></p>' +
+                        '<hr>' +
+                        '<p class="mb-0">Error: ' + error + '</p>' +
+                        '</div>'
+                    );
+                }
+            });
+        }
+    </script>
+</body>
+</html>

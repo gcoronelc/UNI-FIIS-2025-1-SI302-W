@@ -1,0 +1,25 @@
+Crea una pagina de inicio llamada index.html, debe contener un menu base de tipo barra con submenus.
+Debes usar Bootstrap 4.6.
+
+Necesito que desarrolles una funcion javascript para cargar una pagina en el div de id divInicio.
+
+Como utilizo la funcion cargarPagina deesde un link (Etiqueta A)?
+
+Necesito que desarrolles un formulario para consultar el precio de un curso utilizando Bootstrap 4.6 y haciendo una llama AJAX a un servicio REST.
+En ejemplo del endpoint para hacer la llamada al servicio REST consultando el precio del curso 5, es el siguiente: 
+http://localhost:8080/api/consultas/curso/precio/5
+
+
+Tengo problemas de CORS Origin en la llamada al servicio REST, que soluciones suguieres.
+
+
+Necesito que desarrolles un formulario para registrar la matricula de un estudiante utilizando Bootstrap 4.6 y haciendo una llama AJAX a un servicio REST de tipo POST.
+El ebdpoit que debes utilizar es el siguiente "http://localhost:8080/api/procesos/matricular".
+Los datos se envian en formato JSON, un ejemplo de los datos es: 
+{
+    "idCurso":1,
+    "idAlumno": 1,
+    "idEmpleado": 3,
+    "tipo": "BECA",
+    "cuotas" : 1
+}

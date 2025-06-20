@@ -1,0 +1,290 @@
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="form-container">
+                    <h2 class="form-title">
+                        <i class="fas fa-search text-primary"></i>
+                        Consultar Precio de Curso
+                    </h2>
+                    
+                    <form id="formConsultaCurso">
+                        <div class="form-group">
+                            <label for="idCurso" class="font-weight-bold">
+                                <i class="fas fa-graduation-cap text-primary"></i>
+                                ID del Curso
+                            </label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-hashtag"></i>
+                                    </span>
+                                </div>
+                                <input type="number" 
+                                       class="form-control with-icon" 
+                                       id="idCurso" 
+                                       name="idCurso" 
+                                       placeholder="Ingrese el ID del curso (ej: 5)" 
+                                       min="1" 
+                                       required>
+                            </div>
+                            <small class="form-text text-muted">
+                                <i class="fas fa-info-circle"></i>
+                                Ingrese un número válido para consultar el precio
+                            </small>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-consultar">
+                            <span class="btn-text">
+                                <i class="fas fa-search"></i>
+                                Consultar Precio
+                            </span>
+                            <span class="loading-spinner">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                Consultando...
+                            </span>
+                        </button>
+                    </form>
+                    
+                    <!-- Contenedor de Resultados -->
+                    <div id="resultadoContainer" class="resultado-container">
+                        <!-- Los resultados se mostrarán aquí -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para mostrar información adicional -->
+    <div class="modal fade" id="modalInfoCurso" tabindex="-1" role="dialog" aria-labelledby="modalInfoCursoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalInfoCursoLabel">
+                        <i class="fas fa-info-circle"></i>
+                        Información del Curso
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalInfoCursoBody">
+                    <!-- Contenido del modal se carga dinámicamente -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <script>
+        $(document).ready(function() {
+            // Configuración del endpoint base
+            const API_BASE_URL = 'http://localhost:8080/api/consultas/curso/precio/';
+            
+            // Manejar el envío del formulario
+            $('#formConsultaCurso').on('submit', function(e) {
+                e.preventDefault();
+                
+                const idCurso = $('#idCurso').val().trim();
+                
+                // Validar que se ingresó un ID
+                if (!idCurso || idCurso <= 0) {
+                    mostrarError('Por favor, ingrese un ID de curso válido (mayor a 0)');
+                    return;
+                }
+                
+                // Realizar la consulta
+                consultarPrecioCurso(idCurso);
+            });
+            
+            // Función para consultar el precio del curso
+            function consultarPrecioCurso(idCurso) {
+                const url = API_BASE_URL + idCurso;
+                
+                // Mostrar estado de carga
+                mostrarCargando(true);
+                
+                // Realizar petición AJAX
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    timeout: 10000, // 10 segundos de timeout
+                    success: function(response) {
+                        console.log('Respuesta exitosa:', response);
+                        mostrarResultadoExitoso(response, idCurso);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error en la petición:', xhr, status, error);
+                        manejarError(xhr, status, error, idCurso);
+                    },
+                    complete: function() {
+                        mostrarCargando(false);
+                    }
+                });
+            }
+            
+            // Función para mostrar el estado de carga
+            function mostrarCargando(mostrar) {
+                if (mostrar) {
+                    $('.btn-text').hide();
+                    $('.loading-spinner').show();
+                    $('#formConsultaCurso button[type="submit"]').prop('disabled', true);
+                } else {
+                    $('.btn-text').show();
+                    $('.loading-spinner').hide();
+                    $('#formConsultaCurso button[type="submit"]').prop('disabled', false);
+                }
+            }
+            
+            // Función para mostrar resultado exitoso
+            function mostrarResultadoExitoso(response, idCurso) {
+                let contenido = '';
+                
+                // Adaptar según la estructura de respuesta de tu API
+                if (typeof response === 'object') {
+                    const precio = response.precio || response.value || response.cost || response;
+                    const nombreCurso = response.nombre || response.name || response.title || '';
+                    const descripcion = response.descripcion || response.description || '';
+                    
+                    contenido = `
+                        <div class="text-center">
+                            <i class="fas fa-check-circle fa-3x text-white mb-3"></i>
+                            <h4>¡Consulta Exitosa!</h4>
+                        </div>
+                        <div class="curso-info bg-white text-dark">
+                            <h5><i class="fas fa-graduation-cap text-primary"></i> Curso ID: ${idCurso}</h5>
+                            ${nombreCurso ? `<p><strong>Nombre:</strong> ${nombreCurso}</p>` : ''}
+                            ${descripcion ? `<p><strong>Descripción:</strong> ${descripcion}</p>` : ''}
+                        </div>
+                        <div class="precio-display text-white">
+                            <i class="fas fa-dollar-sign"></i> ${formatearPrecio(precio)}
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-light" onclick="mostrarDetalles(${JSON.stringify(response).replace(/"/g, '&quot;')}, ${idCurso})">
+                                <i class="fas fa-info-circle"></i> Ver Detalles
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    // Si la respuesta es solo un número
+                    contenido = `
+                        <div class="text-center">
+                            <i class="fas fa-check-circle fa-3x text-white mb-3"></i>
+                            <h4>¡Consulta Exitosa!</h4>
+                            <div class="curso-info bg-white text-dark">
+                                <h5><i class="fas fa-graduation-cap text-primary"></i> Curso ID: ${idCurso}</h5>
+                            </div>
+                            <div class="precio-display text-white">
+                                <i class="fas fa-dollar-sign"></i> ${response}
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                $('#resultadoContainer')
+                    .removeClass('resultado-error')
+                    .addClass('resultado-exito')
+                    .html(contenido)
+                    .fadeIn(500);
+            }
+            
+            // Función para manejar errores
+            function manejarError(xhr, status, error, idCurso) {
+                let mensaje = '';
+                
+                switch(xhr.status) {
+                    case 404:
+                        mensaje = `No se encontró información para el curso con ID: ${idCurso}`;
+                        break;
+                    case 500:
+                        mensaje = 'Error interno del servidor. Intente nuevamente más tarde.';
+                        break;
+                    case 0:
+                        mensaje = 'No se pudo conectar con el servidor. Verifique su conexión.';
+                        break;
+                    default:
+                        mensaje = `Error ${xhr.status}: ${error || 'Error desconocido'}`;
+                }
+                
+                mostrarError(mensaje);
+            }
+            
+            // Función para mostrar errores
+            function mostrarError(mensaje) {
+                const contenido = `
+                    <div class="text-center">
+                        <i class="fas fa-exclamation-triangle fa-3x text-white mb-3"></i>
+                        <h4>Error en la Consulta</h4>
+                        <p class="mb-0">${mensaje}</p>
+                        <div class="mt-3">
+                            <button class="btn btn-light" onclick="$('#resultadoContainer').fadeOut()">
+                                <i class="fas fa-times"></i> Cerrar
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                $('#resultadoContainer')
+                    .removeClass('resultado-exito')
+                    .addClass('resultado-error')
+                    .html(contenido)
+                    .fadeIn(500);
+            }
+            
+            // Función para formatear precio
+            function formatearPrecio(precio) {
+                if (typeof precio === 'number') {
+                    return precio.toLocaleString('es-PE', {
+                        style: 'currency',
+                        currency: 'PEN'
+                    });
+                }
+                return precio;
+            }
+            
+            // Función global para mostrar detalles en modal
+            window.mostrarDetalles = function(response, idCurso) {
+                let contenido = `
+                    <div class="row">
+                        <div class="col-12">
+                            <h6><i class="fas fa-info-circle text-primary"></i> Información Detallada</h6>
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>ID del Curso:</strong></td>
+                                        <td>${idCurso}</td>
+                                    </tr>
+                `;
+                
+                // Agregar todos los campos de la respuesta
+                for (let key in response) {
+                    if (response.hasOwnProperty(key)) {
+                        contenido += `
+                            <tr>
+                                <td><strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong></td>
+                                <td>${response[key]}</td>
+                            </tr>
+                        `;
+                    }
+                }
+                
+                contenido += `
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+                
+                $('#modalInfoCursoBody').html(contenido);
+                $('#modalInfoCurso').modal('show');
+            };
+            
+            // Limpiar resultado al cambiar el input
+            $('#idCurso').on('input', function() {
+                $('#resultadoContainer').fadeOut();
+            });
+        });
+    </script>

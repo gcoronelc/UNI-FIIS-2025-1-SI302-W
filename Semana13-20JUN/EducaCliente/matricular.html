@@ -1,0 +1,77 @@
+    <div class="container mt-5">
+        <h2 class="mb-4">Formulario de Matrícula</h2>
+
+        <form id="matriculaForm">
+            <div class="form-group">
+                <label for="idCurso">ID Curso</label>
+                <input type="number" class="form-control" id="idCurso" name="idCurso" required>
+            </div>
+
+            <div class="form-group">
+                <label for="idAlumno">ID Alumno</label>
+                <input type="number" class="form-control" id="idAlumno" name="idAlumno" required>
+            </div>
+
+            <div class="form-group">
+                <label for="idEmpleado">ID Empleado</label>
+                <input type="number" class="form-control" id="idEmpleado" name="idEmpleado" required>
+            </div>
+
+            <div class="form-group">
+                <label for="tipo">Tipo de Matrícula</label>
+                <select class="form-control" id="tipo" name="tipo" required>
+                    <option value="">Seleccione...</option>
+                    <option value="REGULAR">REGULAR</option>
+                    <option value="MEDIABECA">MEDIABECA</option>
+                    <option value="BECA">BECA</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="cuotas">Cantidad de Cuotas</label>
+                <input type="number" class="form-control" id="cuotas" name="cuotas" min="1" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Registrar Matrícula</button>
+        </form>
+
+        <div id="resultado" class="mt-4"></div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#matriculaForm').submit(function(event) {
+                event.preventDefault();
+
+                const datos = {
+                    idCurso: parseInt($('#idCurso').val()),
+                    idAlumno: parseInt($('#idAlumno').val()),
+                    idEmpleado: parseInt($('#idEmpleado').val()),
+                    tipo: $('#tipo').val(),
+                    cuotas: parseInt($('#cuotas').val())
+                };
+
+                $.ajax({
+                    url: 'http://localhost:8080/api/procesos/matricular',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(datos),
+                    success: function(response) {
+                        $('#resultado').html(`
+                            <div class="alert alert-success" role="alert">
+                                Matrícula registrada exitosamente. Respuesta: ${JSON.stringify(response)}
+                            </div>
+                        `);
+                    },
+                    error: function(xhr, status, error) {
+                        $('#resultado').html(`
+                            <div class="alert alert-danger" role="alert">
+                                Error al registrar la matrícula: ${xhr.responseText}
+                            </div>
+                        `);
+                    }
+                });
+            });
+        });
+    </script>
+
